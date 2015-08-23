@@ -1,0 +1,14 @@
+Name: Go pam-test authentication
+Default: no
+Priority: 128
+Auth-Type: Primary
+Auth:
+  [success=end default=ignore] /code/pam-test.so
+Auth-Initial:
+  [success=end default=ignore] /code/pam-test.so
+
+Session-Type: Additional
+Session:
+  required /code/pam-test.so
+Session-Initial:
+  required /code/pam-test.so

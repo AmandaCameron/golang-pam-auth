@@ -1,15 +1,30 @@
-#include "_cgo_export.h"
 #include "string.h"
+#include "stdlib.h"
+
+#include "_cgo_export.h"
 
 #define PAM_SM_AUTH
+#define PAM_SM_PASSWORD
+#define PAM_SM_SESSION
 #include <security/pam_modules.h>
+#include <security/pam_appl.h>
 
 GoSlice argcvToSlice(int, const char**);
 
 PAM_EXTERN int pam_sm_authenticate(pam_handle_t* pamh, int flags, int argc, const char** argv) {
-  GoSlice args = argcvToSlice(argc, argv);
+  return goAuthenticate(pamh, flags, argcvToSlice(argc, argv));
+}
 
-	return Authenticate(pamh, flags, args);
+PAM_EXTERN int pam_sm_setcred(pam_handle_t* pamh, int flags, int argc, const char** argv) {
+  return setCred(pamh, flags, argcvToSlice(argc, argv));
+}
+
+PAM_EXTERN int pam_sm_open_session(pam_handle_t* pamh, int flags, int argc, const char** argv) {
+  return openSession(pamh, flags, argcvToSlice(argc, argv));
+}
+
+PAM_EXTERN int pam_sm_close_session(pam_handle_t* pamh, int flags, int argc, const char** argv) {
+  return closeSession(pamh, flags, argcvToSlice(argc, argv));
 }
 
 GoSlice argcvToSlice(int argc, const char** argv) {
